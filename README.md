@@ -22,6 +22,7 @@ flexynesis_tissue_vae_manuscript/
 │   ├── csv_to_h5.py                  build the HDF5 training compendium from CSVs
 │   ├── h5_dataloader.py              memory-safe HDF5 dataloader (see also PR #146)
 │   ├── train_denoising_vae_h5.py     train the supervised VAE (standard + denoising)
+│   ├── train_denoising_vae.py        DenoisingVAE class + evaluation routine
 │   ├── baseline_hvg_knn_v3.py        HVG + kNN baseline for comparison
 │   ├── build_v3_webapp_artifacts.py  export embeddings/artifacts for the demo app
 │   ├── regen_fig1_v3.py              Figure 1  (t-SNE latent space)
@@ -31,7 +32,6 @@ flexynesis_tissue_vae_manuscript/
 │   ├── regen_fig5_v3.py              Figure 5  (single-cell foundation-model comparison)
 │   ├── regen_figS1_v3.py             Figure S1 (confusion matrix)
 │   ├── regen_figS2_v3.py             Figure S2 (per-gene reconstruction scatter)
-│   ├── benchmark_bulkformer.py       Figure 6  (VAE vs BulkFormer on TARGET)
 │   └── regen_fig4_ablation.py        Figure S3 (cell-line ablation on TARGET)
 ├── figures/                   ← final figures (SVG + PNG, 300 DPI)
 └── webapp/                    ← HuggingFace demo app (app.py, requirements, sample input)
@@ -39,6 +39,14 @@ flexynesis_tissue_vae_manuscript/
 
 > Note: the HDF5 dataloader is also contributed upstream to the Flexynesis
 > package: https://github.com/BIMSBbioinfo/flexynesis/pull/146
+
+> **Figure 6 (BulkFormer comparison).** Figure 6 reports a zero-shot comparison
+> against BulkFormer (Kang et al., bioRxiv 2025, doi:10.1101/2025.06.11.659222),
+> computed by k-NN (k=5, cosine) on BulkFormer embeddings of the TARGET cohort and
+> the held-out reference set. The pre-computed BulkFormer embeddings are deposited
+> on Zenodo. A standalone reproduction script is not included in this release; it
+> will be added once the embedding export is re-run with sample identifiers
+> retained. Available on request in the meantime.
 
 ---
 
@@ -52,6 +60,7 @@ The following are deposited on Zenodo (DOI: **[to be added]**):
 | `results_denoising_vae_411k_B/` | ~18 GB | Standard + Denoising VAE weights, checkpoints, `results.json`, `target_v3_results.json` |
 | `vae_tissue.final_model.pth` | ~8 GB | Trained model weights (used by the demo app) |
 | pre-computed embeddings (`embeddings_{train,test}.csv`) | ~190 MB | Latent representations for downstream use |
+| BulkFormer embeddings (`ref_emb_bf93M.npy`, `tgt_emb_bf93M.npy`) | ~60 MB | BulkFormer-93M embeddings of reference + TARGET (Figure 6) |
 
 Download these from Zenodo and place them as indicated in the reproduction steps below.
 
@@ -98,7 +107,6 @@ python scripts/regen_fig4_v3.py        # Figure 4
 python scripts/regen_fig5_v3.py        # Figure 5
 python scripts/regen_figS1_v3.py       # Figure S1
 python scripts/regen_figS2_v3.py       # Figure S2
-python scripts/benchmark_bulkformer.py # Figure 6  (BulkFormer benchmark)
 python scripts/regen_fig4_ablation.py  # Figure S3 (cell-line ablation)
 ```
 
