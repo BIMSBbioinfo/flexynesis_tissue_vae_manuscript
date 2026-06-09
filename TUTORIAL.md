@@ -1,3 +1,4 @@
+[TUTORIAL.md](https://github.com/user-attachments/files/28746445/TUTORIAL.md)
 # Tutorial: Getting tissue embeddings and predictions from the Flexynesis tissue-VAE
 
 This guide shows how to take a bulk RNA-seq expression matrix and obtain (1) the
@@ -26,7 +27,10 @@ conda env create -f environment.yml
 conda activate flexynesis
 ```
 
-Core dependencies: PyTorch, pandas, numpy, scikit-learn, joblib.
+Core dependencies: PyTorch, pandas, numpy, scikit-learn (1.7.x), joblib.
+
+> Note: the model artifacts were saved with scikit-learn 1.7.2. Use a matching
+> version to avoid an unpickling version warning.
 
 ---
 
@@ -117,6 +121,8 @@ results = pd.DataFrame({
 results.to_csv("my_predictions.csv", index=False)
 print(results)
 ```
+
+A ready-to-run version of this script is provided as `get_embeddings.py`.
 
 ---
 
